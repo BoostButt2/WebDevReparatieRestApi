@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "CpxLTcRuDiKjspeOIqID0erCuvrUYzV+7UEhV7etb+M=",
+  "Source": "AimTrainerRestApi",
+  "BasePath": "_content/AimTrainerRestApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
