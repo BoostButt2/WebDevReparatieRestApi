@@ -72,8 +72,6 @@ namespace AimTrainerRestApi.Controllers
             {
                 return Unauthorized();
             }
-
-
             if (_context.User == null)
             {
                 return NotFound();
@@ -89,21 +87,26 @@ namespace AimTrainerRestApi.Controllers
         }
 
         //Edit user
-        // PUT: api/User/5
+        // PUT: api/User
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(Guid id, User user)
+        [HttpPost("edit")]
+        public async Task<IActionResult> PutUser(User user)
         {
-            if (!ConfirmUser(user.Username))
-            {
-                return Unauthorized();
-            }
-            if (id != user.Userid)
-            {
-                return BadRequest();
-            }
+/*            var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
+            var tokenHandler = new JwtSecurityTokenHandler();
 
-            _context.Entry(user).State = EntityState.Modified;
+            var jwtToken = tokenHandler.ReadJwtToken(token);
+
+            var claims = jwtToken.Claims;*/
+
+            Guid userId = GetUserIdFromToken();
+            user = CleanUser(user);
+            user.Password = HashString(user.Password, user.Username);
+            var dbUser = _context.User.Where(x => x.Userid == userId).FirstOrDefault();
+            dbUser.Username = user.Username;
+            dbUser.Password = user.Password;
+
+            _context.Entry(dbUser).State = EntityState.Modified;
 
             try
             {
@@ -111,7 +114,7 @@ namespace AimTrainerRestApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!UserExists(userId))
                 {
                     return NotFound();
                 }
@@ -162,7 +165,7 @@ namespace AimTrainerRestApi.Controllers
         }
 
         // DELETE: api/User/5
-        [Authorize(Roles = "admin")]
+        [AllowAnonymous]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
@@ -247,9 +250,6 @@ namespace AimTrainerRestApi.Controllers
             var tokenHandler = new JwtSecurityTokenHandler();
 
             var jwtToken = tokenHandler.ReadJwtToken(token);
-            /*          var tokenS = jwtToken as JwtSecurityToken;
-
-                      var tokenUsername = tokenS.Claims.FirstOrDefault(claim => claim.Type == "Username").Value;*/
 
             var claims = jwtToken.Claims;
 
@@ -260,6 +260,20 @@ namespace AimTrainerRestApi.Controllers
                 return true;
             }
             return false;
+        }
+
+        private Guid GetUserIdFromToken()
+        {
+            var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var jwtToken = tokenHandler.ReadJwtToken(token);
+
+            var claims = jwtToken.Claims;
+
+            Guid userId = Guid.Parse(claims.FirstOrDefault(c => c.Type == "Userid")?.Value);
+
+            return userId;
         }
 
         private bool UserExists(Guid id)

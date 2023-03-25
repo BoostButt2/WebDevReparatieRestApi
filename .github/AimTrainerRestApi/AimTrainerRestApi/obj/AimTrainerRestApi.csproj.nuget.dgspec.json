@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\School\\Web Development\\Server Technologie\\Aim Trainer RESTAPI\\AimTrainerRestApi\\AimTrainerRestApi\\AimTrainerRestApi\\AimTrainerRestApi.csproj": {}
+    "C:\\School\\Web Development\\Server Technologie\\WebDevReparatieRestApi\\.github\\AimTrainerRestApi\\AimTrainerRestApi\\AimTrainerRestApi.csproj": {}
   },
   "projects": {
-    "C:\\School\\Web Development\\Server Technologie\\Aim Trainer RESTAPI\\AimTrainerRestApi\\AimTrainerRestApi\\AimTrainerRestApi\\AimTrainerRestApi.csproj": {
+    "C:\\School\\Web Development\\Server Technologie\\WebDevReparatieRestApi\\.github\\AimTrainerRestApi\\AimTrainerRestApi\\AimTrainerRestApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\School\\Web Development\\Server Technologie\\Aim Trainer RESTAPI\\AimTrainerRestApi\\AimTrainerRestApi\\AimTrainerRestApi\\AimTrainerRestApi.csproj",
+        "projectUniqueName": "C:\\School\\Web Development\\Server Technologie\\WebDevReparatieRestApi\\.github\\AimTrainerRestApi\\AimTrainerRestApi\\AimTrainerRestApi.csproj",
         "projectName": "AimTrainerRestApi",
-        "projectPath": "C:\\School\\Web Development\\Server Technologie\\Aim Trainer RESTAPI\\AimTrainerRestApi\\AimTrainerRestApi\\AimTrainerRestApi\\AimTrainerRestApi.csproj",
+        "projectPath": "C:\\School\\Web Development\\Server Technologie\\WebDevReparatieRestApi\\.github\\AimTrainerRestApi\\AimTrainerRestApi\\AimTrainerRestApi.csproj",
         "packagesPath": "C:\\Users\\jesse\\.nuget\\packages\\",
-        "outputPath": "C:\\School\\Web Development\\Server Technologie\\Aim Trainer RESTAPI\\AimTrainerRestApi\\AimTrainerRestApi\\AimTrainerRestApi\\obj\\",
+        "outputPath": "C:\\School\\Web Development\\Server Technologie\\WebDevReparatieRestApi\\.github\\AimTrainerRestApi\\AimTrainerRestApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

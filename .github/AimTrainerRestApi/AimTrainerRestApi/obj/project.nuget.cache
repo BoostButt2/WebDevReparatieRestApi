@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "y/rva9N2QFgo/GgIs9L3lauXnD8d8bReVWwlhoCyIjV88Ymm2Hxe+JAkRMH0yy83PA5X8ZIOQSnSfOXUSmQVpQ==",
+  "dgSpecHash": "SDS2L1M81jThg2ExmZxQN8C4Mrtz7rygS17afYriFdhlJOBeHr2D3yjOlm9o7jfuMAqe8NhDLULHZjLR37vjfA==",
   "success": true,
-  "projectFilePath": "C:\\School\\Web Development\\Server Technologie\\Aim Trainer RESTAPI\\AimTrainerRestApi\\AimTrainerRestApi\\AimTrainerRestApi\\AimTrainerRestApi.csproj",
+  "projectFilePath": "C:\\School\\Web Development\\Server Technologie\\WebDevReparatieRestApi\\.github\\AimTrainerRestApi\\AimTrainerRestApi\\AimTrainerRestApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\jesse\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\jesse\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
