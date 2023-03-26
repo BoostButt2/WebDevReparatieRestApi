@@ -51,7 +51,7 @@ namespace AimTrainerRestApi.Controllers
                         _configuration["Jwt:Issuer"],
                         _configuration["Jwt:Audience"],
                         claims,
-                        expires: DateTime.UtcNow.AddSeconds(90),
+                        expires: DateTime.UtcNow.AddHours(8),
                         signingCredentials: signIn);
 
                     return Ok(new JwtSecurityTokenHandler().WriteToken(token));

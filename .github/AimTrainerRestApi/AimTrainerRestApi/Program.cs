@@ -51,6 +51,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors(policy =>
 {
     policy.AllowAnyHeader();
+    policy.AllowAnyMethod();
 
     policy.AllowAnyOrigin();
 });

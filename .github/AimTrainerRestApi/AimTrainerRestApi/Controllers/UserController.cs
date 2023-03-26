@@ -19,7 +19,7 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace AimTrainerRestApi.Controllers
 {
-/*    [Authorize]*/
+    [Authorize(Roles = "admin,player")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -41,7 +41,17 @@ namespace AimTrainerRestApi.Controllers
           {
               return NotFound();
           }
-            return await _context.User.ToListAsync();
+            return await _context.User.Where(x => x.Role == "player").ToListAsync();
+        }
+        [Authorize(Roles = "admin")]
+        [HttpGet("getplayers")]
+        public async Task<ActionResult<IEnumerable<User>>> GetPlayers()
+        {
+            if (_context.User == null)
+            {
+                return NotFound();
+            }
+            return await _context.User.Where(x => x.Role == "player").ToListAsync();
         }
 
         //Get user by id
@@ -63,11 +73,15 @@ namespace AimTrainerRestApi.Controllers
             return user;
         }
 
-        //Get user by username
-        // GET: api/User/getbyusername/{username}
-        [HttpGet("getbyusername/{username}")]
-        public async Task<ActionResult<User>> GetUser(string username)
+        //Get user by jwt token
+        // GET: api/User/getbyusername
+        [HttpGet("getbyusername")]
+        public async Task<ActionResult<User>> GetUserByToken()
         {
+            Guid userId = GetUserIdFromToken();
+            var dbUser = _context.User.Where(x => x.Userid == userId).FirstOrDefault();
+            var username = dbUser.Username;            
+
             if (!ConfirmUser(username))
             {
                 return Unauthorized();
@@ -92,13 +106,6 @@ namespace AimTrainerRestApi.Controllers
         [HttpPost("edit")]
         public async Task<IActionResult> PutUser(User user)
         {
-/*            var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            var jwtToken = tokenHandler.ReadJwtToken(token);
-
-            var claims = jwtToken.Claims;*/
-
             Guid userId = GetUserIdFromToken();
             user = CleanUser(user);
             user.Password = HashString(user.Password, user.Username);
@@ -115,6 +122,33 @@ namespace AimTrainerRestApi.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 if (!UserExists(userId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPost("editUserrole")]
+        public async Task<IActionResult> EditUserRole(User user)
+        {
+            user = CleanUser(user);
+
+            _context.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(user.Userid))
                 {
                     return NotFound();
                 }
@@ -165,10 +199,16 @@ namespace AimTrainerRestApi.Controllers
         }
 
         // DELETE: api/User/5
-        [AllowAnonymous]
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
+            User dbUserOnUsername = _context.User.Where(x => x.Userid == id).FirstOrDefault();
+            if(dbUserOnUsername.Role == "admin")
+            {
+                return Problem();
+            }
+
             if (_context.User == null)
             {
                 return NotFound();
@@ -202,13 +242,10 @@ namespace AimTrainerRestApi.Controllers
             return Problem("Username and password don't match");
         }
 
-        [HttpPost("checkloggedin")]
-        public async Task<IActionResult> CheckLoggedIn(User user)
+        [Authorize(Roles = "admin,player")]
+        [HttpGet("checkloggedin")]
+        public async Task<IActionResult> CheckLoggedIn()
         {
-            if (!ConfirmUser(user.Username))
-            {
-                return Unauthorized();
-            }
             return Ok();
         }
 
@@ -218,7 +255,6 @@ namespace AimTrainerRestApi.Controllers
         {
             return Ok();
         }
-
 
         [HttpPost("updatescore")]
         public async Task<IActionResult> UpdateScore(User user)
