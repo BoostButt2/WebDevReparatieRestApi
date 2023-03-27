@@ -41,7 +41,7 @@ namespace AimTrainerRestApi.Controllers
           {
               return NotFound();
           }
-            return await _context.User.Where(x => x.Role == "player").ToListAsync();
+            return await _context.User.ToListAsync();
         }
         [Authorize(Roles = "admin")]
         [HttpGet("getplayers")]
@@ -106,10 +106,17 @@ namespace AimTrainerRestApi.Controllers
         [HttpPost("edit")]
         public async Task<IActionResult> PutUser(User user)
         {
+            //checks if the username already exists
+            User dbUserOnUsername = _context.User.Where(x => x.Username == user.Username).FirstOrDefault();
             Guid userId = GetUserIdFromToken();
             user = CleanUser(user);
             user.Password = HashString(user.Password, user.Username);
             var dbUser = _context.User.Where(x => x.Userid == userId).FirstOrDefault();
+
+            if (dbUserOnUsername != null && dbUserOnUsername.Username != dbUser.Username)
+            {
+                return Problem("Username already exists");
+            }
             dbUser.Username = user.Username;
             dbUser.Password = user.Password;
 
