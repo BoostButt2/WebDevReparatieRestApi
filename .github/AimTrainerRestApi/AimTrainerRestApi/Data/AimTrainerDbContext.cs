@@ -7,13 +7,13 @@ using AimTrainerRestApi.Models;
 
 namespace AimTrainerRestApi.Data
 {
-    public class AimTrainerDbContext : DbContext
+    public class AimTrainerDbContext : DbContext, IAimTrainerDbContext
     {
         public AimTrainerDbContext (DbContextOptions<AimTrainerDbContext> options)
             : base(options)
         {
         }
 
-        public DbSet<AimTrainerRestApi.Models.User> User { get; set; } = default!;
+        public virtual DbSet<AimTrainerRestApi.Models.User> User { get; set; } = default!;
     }
 }

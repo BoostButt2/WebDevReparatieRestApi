@@ -71,5 +71,6 @@ namespace AimTrainerRestApi.Controllers
         {
             return await _context.User.FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
         }
+
     }
 }

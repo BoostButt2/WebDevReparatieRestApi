@@ -33,7 +33,7 @@ namespace AimTrainerRestApi.Controllers
 
         //Get all users
         // GET: api/User
-        [AllowAnonymous]
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUser()
         {
@@ -64,6 +64,10 @@ namespace AimTrainerRestApi.Controllers
               return NotFound();
           }
             var user = await _context.User.FindAsync(id);
+            if (!ConfirmUser(user.Username))
+            {
+                return Problem("Not your user. Very naughty");
+            }
 
             if (user == null)
             {
