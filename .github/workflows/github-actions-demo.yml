@@ -2,9 +2,9 @@ name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 env:
-  SERVER_IP: <server-ip>
-  USERNAME: ${{ env.USERNAME }} 
-  REMOTE_DIRECTORY: <remote-directory>
+  SERVER_IP: 145.44.235.104
+  USERNAME: s1117601 
+  REMOTE_DIRECTORY: ~/MyApp/
 
 jobs:
   Explore-GitHub-Actions:
