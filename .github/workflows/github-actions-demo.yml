@@ -7,8 +7,6 @@ env:
   REMOTE_DIRECTORY: <remote-directory>
 
 jobs:
-  Deploy: 
-    runs-on: ubuntu-latest
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
